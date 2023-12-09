@@ -3,7 +3,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Gen 1 Pokedex</title>
+    <title>Partial Pokedex</title>
     <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css?family=Rubik&display=swap"
@@ -11,18 +11,41 @@
     />
   </head>
   <body>
+    <div class="body-container">
     <div class="container">
-      <h1>Gen 1 Pokedex</h1>
-      <div class="search-container">
-        <input type="text" placeholder="Search by name" id="search-input" />
-        <button id="search-button">Search</button>
+
+      <div class="circle-container">
+        <div class="white-circle">
+          <div class="blue-circle">
+          </div>
+        </div>
+        <div class="traffic-container">
+          <div class="red-circle"></div>
+          <div class="yellow-circle"></div>
+          <div class="green-circle"></div>
+        </div>
       </div>
-      <div class="searchType-container">
-        <input type="text" placeholder="Search by Type" id="searchType-input" />
-        <button id="searchType-button">Search Type</button>
+
+      <div class="search-container-container">
+        <div class="search-container">
+          <input type="text" placeholder="Search by Name" id="search-input" class="search-input" />
+          <button id="search-button" class="btn-primary">Search</button>
+        </div>
+  
+        <div class="search-container">
+          <input type="text" placeholder="Search by Type" id="searchType-input"class="search-input" />
+          <button id="searchType-button" class="btn-primary">Search</button>
+        </div>
       </div>
+
       <ul id="pokedex"></ul>
+    
     </div>
+    <div class="scroller">
+
+    </div>
+  </div>
+
     <script src="script.js"></script>
   </body>
 </html>

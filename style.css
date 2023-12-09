@@ -1,166 +1,252 @@
+:root,
+::after,
+::before {
+    box-sizing: content-box;
+}
+
+:root > * {
+  box-sizing: content-box;
+}
+
 body {
-    background-color: red;
-    color: white;
-    margin: 0;
-    font-family: rubik;
+  background-color: red;
+  color: white;
+  margin: 0;
+  font-family: rubik;
 }
 
 .container {
-    padding: 40px;
-    margin: 0 auto;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
 }
 
 h1 {
-    text-transform: uppercase;
-    text-align: center;
-    font-size: 54px;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 54px;
 }
 
 #pokedex {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: 20px;
-    padding-inline-start: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(275px, 275px));
+  grid-gap: 20px;
+  padding-inline-start: 0;
 }
 
 .card {
-    list-style: none;
-    padding: 40px;
-    background-color: white;
-    color: #222;
+  list-style: none;
+  padding: 20px;
+  background-color: white;
+  color: #222;
   text-align: center;
+  border-radius: 2rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.7);
+  max-width: 250px;
+  position:relative;
+}
+.star {
+  position: absolute;
+  top: 12;
+  right: 15;
+  font-size: 40px;
+  z-index: 100;
+  display: block;
 }
 
+.star-toggle {
+  display: none;
+}
+
+
 .card-title {
-    text-transform: capitalize;
-    margin-bottom: 0px;
-    font-size: 32px;
-    font-weight: normal;
-    color: white;
-    visibility: hidden;
+  text-transform: capitalize;
+  margin-bottom: 0px;
+  font-size: 32px;
+  font-weight: normal;
+  color: white;
+  visibility: hidden;
 }
 
 .card-titleRevealed {
-    text-transform: capitalize;
-    margin-bottom: 0px;
-    font-size: 32px;
-    font-weight: normal;
-    color: black;
-    visibility: visible;
+  text-transform: capitalize;
+  margin-bottom: 0px;
+  font-size: 32px;
+  font-weight: normal;
+  color: black;
+  visibility: visible;
 }
 
 .card-subtitle {
-    margin-top: 5px;
-    color: white;
-    font-weight: lighter;
-    visibility: hidden;
+  margin-top: 5px;
+  color: white;
+  font-weight: lighter;
+  visibility: hidden;
+  text-transform: capitalize;
 }
 
 .card-subRevealed {
-    margin-top: 5px;
-    color: black;
-    font-weight: lighter;
-    visibility: visible;
+  margin-top: 5px;
+  color: black;
+  font-weight: lighter;
+  visibility: visible;
 }
 
 .card-image {
-    height: 180px;
-    filter: brightness(0%); 
-    transition: filter 0.3s ease; 
+  height: 180px;
+  filter: brightness(0%);
+  transition: filter 0.3s ease;
 }
 
 .card-imageRevealed {
-    height: 180px;
-    filter: brightness(100%); 
-    transition: filter 0.3s ease; 
+  height: 180px;
+  filter: brightness(100%);
+  transition: filter 0.3s ease;
 }
 
 .card:hover .card-image {
-    animation: bounce 0.5s linear;
-    /* filter: brightness(100%);  */
-    cursor: pointer; 
+  animation: bounce 0.5s linear;
+  cursor: pointer;
 }
-
-/* .card-image .clicked {
-    filter: brightness(100%);
-  } */
 
 @keyframes bounce {
-    20% {
-        transform: translateY(-6px);
-    }
-    40% {
-        transform: translateY(0px);
-    }
+  20% {
+    transform: translateY(-6px);
+  }
+  40% {
+    transform: translateY(0px);
+  }
 
-    80% {
-        transform: translateY(-2px);
-    }
-    100% {
-        transform: translateY(0);
-    }
+  80% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.search-container-container {
+  display: flex;
+  gap: 20px;
+}
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+  min-width: 275px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0 0.3);
 }
 
-.search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    background-color: white;
-    padding: 0 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    width:25%;
-  }
-  
-  #search-bar {
-    flex-grow: 1;
-    height: 30px;
-    font-size: 16px;
-    padding: 0 10px;
-    border-radius: 5px;
-    border: none;
-  }
-  
-  #search-button {
-    margin-left: 10px;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    background-color: #f44336;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  #search-button:hover {
-    background-color: #e53935;
-  }
+#search-bar {
+  flex-grow: 1;
+  height: 30px;
+  font-size: 16px;
+  padding: 0 10px;
+  border-radius: 5px;
+  border: none;
+}
 
-  .searchType-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    background-color: white;
-    padding: 0 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    margin-top:15px;
-    width:25%;
-  }
-  
+.search-input {
+  padding: 3px 5px;
+  border-radius: 8px;
+}
 
-  #searchType-button {
-    margin-left: 10px;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    background-color: #f44336;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  #searchType-button:hover {
-    background-color: #e53935;
-  }
+.btn-primary {
+  margin-left: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f44336;
+  color: white;
+  font-weight: 100;
+  padding: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
 
+.btn-primary:hover {
+  opacity: 0.8;
+}
+
+.circle-container {
+  display: flex;
+}
+
+.white-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  margin: 20px;
+}
+
+.blue-circle {
+  background-color: rgb(0, 115, 255);
+  height: 85px;
+  width: 85px;
+  border-radius: 50%;
+}
+
+.traffic-container {
+  display: flex;
+}
+
+.red-circle,
+.green-circle,
+.yellow-circle {
+  margin: 30px 20px 20px 0;
+  background-color: rgb(0, 115, 255);
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+}
+
+.red-circle { background-color: rgb(143, 14, 14)}
+.yellow-circle { background-color: yellow}
+.green-circle { background-color: green}
+
+
+.scroller {
+  position: absolute;
+  top: 10rem;
+  right: 10rem;
+  height: 100%;
+  width: 320px;
+  overflow-y: auto;
+  background-color: white;
+}
+
+.pokedexContainer {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 0px 20px;
+
+}
+
+.pokemonName {
+  color: black;
+  text-align: left;
+  font-size: 25px;
+  padding: 10px 20px;
+}
+
+.pokeball {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: black;
+}
+
+.pokeemall {
+  background-image: url('/poke.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  object-fit: cover;
+}
