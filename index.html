@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Partial Pokedex</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="responsive.css" />
     <link
       href="https://fonts.googleapis.com/css?family=Rubik&display=swap"
       rel="stylesheet"
@@ -12,39 +13,48 @@
   </head>
   <body>
     <div class="body-container">
-    <div class="container">
-
-      <div class="circle-container">
-        <div class="white-circle">
-          <div class="blue-circle">
+      <div class="container">
+        <div class="circle-container">
+          <div class="white-circle">
+            <div class="blue-circle"></div>
+          </div>
+          <div class="traffic-container">
+            <div class="red-circle"></div>
+            <div class="yellow-circle"></div>
+            <div class="green-circle"></div>
           </div>
         </div>
-        <div class="traffic-container">
-          <div class="red-circle"></div>
-          <div class="yellow-circle"></div>
-          <div class="green-circle"></div>
+
+        <div class="search-container-container">
+          <div class="search-container">
+            <input
+              type="text"
+              placeholder="Search by Name"
+              id="search-input"
+              class="search-input"
+            />
+            <button id="search-button" class="btn-primary">Search</button>
+          </div>
+
+          <div class="search-container">
+            <input
+              type="text"
+              placeholder="Search by Type"
+              id="searchType-input"
+              class="search-input"
+            />
+            <button id="searchType-button" class="btn-primary">Search</button>
+          </div>
+
+          <div>
+            <button class="sort-alpha">Sort A-Z</button>
+            <button class="sort-zeta">Sort Z-A</button>
+          </div>
         </div>
+
+        <ul id="pokedex"></ul>
       </div>
-
-      <div class="search-container-container">
-        <div class="search-container">
-          <input type="text" placeholder="Search by Name" id="search-input" class="search-input" />
-          <button id="search-button" class="btn-primary">Search</button>
-        </div>
-  
-        <div class="search-container">
-          <input type="text" placeholder="Search by Type" id="searchType-input"class="search-input" />
-          <button id="searchType-button" class="btn-primary">Search</button>
-        </div>
-      </div>
-
-      <ul id="pokedex"></ul>
-    
     </div>
-    <div class="scroller">
-
-    </div>
-  </div>
 
     <script src="script.js"></script>
   </body>
