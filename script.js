@@ -8,6 +8,8 @@ const sortZeta = document.querySelector(".sort-zeta");
 
 let pokemonData = [];
 
+const mapEmAll = new Map();
+
 const fetchPokemon = () => {
   const promises = [];
   for (let i = 1; i <= 30; i++) {
@@ -15,38 +17,54 @@ const fetchPokemon = () => {
     promises.push(fetch(url).then((res) => res.json()));
   }
   Promise.all(promises).then((results) => {
-    pokemonData = results.map((result) => ({
+    pokemonData = results.map((result) => (
+      {
       name: result.name,
       image: result.sprites["front_default"],
       type: result.types.map((type) => type.type.name).join(" · "),
       id: result.id,
-    }));
+      fav: "",
+      star: "hollow",
+      img: "",
+      title: "",
+      sub: "",
+      active: "",
+    }
+    ));
+    createPokemonDataMap(pokemonData);
+    console.log(mapEmAll);
     displayPokemon(pokemonData);
-    console.log(pokemonData);
 
   });
 };
 
+
+function createPokemonDataMap(input) {
+  
+  input.forEach((pokemon) => mapEmAll.set(pokemon.name, pokemon));
+
+}
+
+
+
 function createListElement(pokemon) {
   return pokemon
     .map((pokemon) => {
-      const pokemonList = `
-        <li class="card">
-            <div class="star-toggle star ">☆</div>
-            <img class="card-image " src="${pokemon.image}"/>
-            <p class="card-id ">#${pokemon.id}</p>
-            <h2 class="card-title ">${pokemon.name}</h2>
-            <p class="card-subtitle ">${pokemon.type}</p>
-        </li>
-    `;
+      const pokemonList = `<li class="${pokemon.name} card ${pokemon.active}">
+            <div class="star ${pokemon.fav} ">${pokemon.star === "hollow" ? "☆" : "⭐" }</div>
+            <img class="card-image ${pokemon.img}" src="${pokemon.image}"/>
+            <p class="card-id">#${pokemon.id}</p>
+            <h2 class="card-title ${pokemon.title}">${pokemon.name}</h2>
+            <p class="card-subtitle ${pokemon.sub}">${pokemon.type}</p>
+        </li> `;
       return pokemonList;
     })
     .join("");
 }
 
-const displayPokemon = (pokemon) => {
-  pokedex.innerHTML = createListElement(pokemon); // After creating all the li elements of the pokemon, fill them inside the ul 'pokedex'
-  const pokemonCards = document.querySelectorAll(".card"); // Get all the pokemon cards
+
+const addPokemonCardListeners = () => {
+  const pokemonCards = document.querySelectorAll(".card"); 
 
   pokemonCards.forEach((pokemon, index) => {
     const title = pokemon.querySelector(".card-title");
@@ -54,7 +72,9 @@ const displayPokemon = (pokemon) => {
     const sub = pokemon.querySelector(".card-subtitle");
     const star = pokemon.querySelector(".star");
 
-    const temp = pokemon;
+    let arr = Array.from(pokemon.classList);
+    let pMap = mapEmAll.get(arr[0]);
+
     pokemon.addEventListener("click", () => {
       if (!pokemon.classList.contains("active")) {
         image.classList.toggle("card-imageRevealed");
@@ -62,18 +82,40 @@ const displayPokemon = (pokemon) => {
         sub.classList.toggle("card-subRevealed");
         star.classList.toggle("star-toggle");
         pokemon.classList.add("active");
+
+        pMap.img = "card-imageRevealed"
+        pMap.title = "card-titleRevealed"
+        pMap.sub = "card-subRevealed"
+        pMap.fav = "star-toggle"
+        pMap.star = "fill"
+        pMap.active = "active"
+       
       }
     });
+
+    
 
     star.addEventListener("click", () => {
       if (star.innerHTML === "☆") {
         star.innerHTML = "⭐";
+        pMap.star = "fill"
       } else {
         star.innerHTML = "☆";
+        pMap.star = "hollow"
+
       }
     });
   });
-};
+
+  };
+
+
+
+const displayPokemon = (pokemon) => {
+    pokedex.innerHTML = createListElement(pokemon);
+    addPokemonCardListeners();
+  
+}
 
 
 
@@ -84,6 +126,7 @@ const searchPokemon = (event) => {
   if (searchTerm === "") {
     pokemonData.sort(sortNumerical);
   } else {
+    pokemonData.sort(comparePokemonId)
     const filteredPokemon = pokemonData.filter((pokemon) =>
       pokemon.name.includes(searchTerm)
     );
@@ -99,6 +142,7 @@ const searchPokemonType = (event) => {
     pokemonData.sort(sortNumerical);
 
   } else {
+    pokemonData.sort(comparePokemonId)
     const filterType = pokemonData.filter((pokemon) =>
       pokemon.type.includes(searchType)
     );
@@ -134,20 +178,16 @@ function comparePokemonId(a, b) {
 
 const sortAlphabetical = (event) => {
   event.preventDefault();
-  const filterSortAlpha = pokemonData.sort(comparePokemon);
-  displayPokemon(filterSortAlpha);
+  displayPokemon(pokemonData.sort(comparePokemon));
 };
 
 const sortZetanumeril = (event) => {
   event.preventDefault();
-  const filterSortAlpha = pokemonData.sort(comparePokemonButTheOtherWay);
-
-  displayPokemon(filterSortAlpha);
+  displayPokemon(pokemonData.sort(comparePokemonButTheOtherWay));
 };
 
 const sortNumerical = (event) => {
-  const filterNumerical = pokemonData.sort(comparePokemonId);
-  displayPokemon(filterNumerical);
+  displayPokemon(pokemonData.sort(comparePokemonId));
 };
 
 searchButton.addEventListener("click", searchPokemon);

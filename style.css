@@ -86,11 +86,11 @@ h1 {
   right: 15;
   font-size: 40px;
   z-index: 100;
-  display: block;
+  display: none;
 }
 
 .star-toggle {
-  display: none;
+  display: block;
 }
 
 
