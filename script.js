@@ -5,6 +5,8 @@ const searchTypeInput = document.getElementById("searchType-input");
 const searchTypeButton = document.getElementById("searchType-button");
 const sortAlpha = document.querySelector(".sort-alpha");
 const sortZeta = document.querySelector(".sort-zeta");
+let scroller = document.querySelector(".scroll-container")
+const scroll = document.querySelector(".scroller")
 
 let pokemonData = [];
 
@@ -17,6 +19,7 @@ const fetchPokemon = () => {
     promises.push(fetch(url).then((res) => res.json()));
   }
   Promise.all(promises).then((results) => {
+    
     pokemonData = results.map((result) => (
       {
       name: result.name,
@@ -32,7 +35,6 @@ const fetchPokemon = () => {
     }
     ));
     createPokemonDataMap(pokemonData);
-    console.log(mapEmAll);
     displayPokemon(pokemonData);
 
   });
@@ -51,7 +53,7 @@ function createListElement(pokemon) {
   return pokemon
     .map((pokemon) => {
       const pokemonList = `<li class="${pokemon.name} card ${pokemon.active}">
-            <div class="star ${pokemon.fav} ">${pokemon.star === "hollow" ? "☆" : "⭐" }</div>
+            <div class="star ${pokemon.fav}">${pokemon.star === "hollow" ? "☆" : "⭐" }</div>
             <img class="card-image ${pokemon.img}" src="${pokemon.image}"/>
             <p class="card-id">#${pokemon.id}</p>
             <h2 class="card-title ${pokemon.title}">${pokemon.name}</h2>
@@ -66,7 +68,7 @@ function createListElement(pokemon) {
 const addPokemonCardListeners = () => {
   const pokemonCards = document.querySelectorAll(".card"); 
 
-  pokemonCards.forEach((pokemon, index) => {
+  pokemonCards.forEach((pokemon) => {
     const title = pokemon.querySelector(".card-title");
     const image = pokemon.querySelector(".card-image");
     const sub = pokemon.querySelector(".card-subtitle");
@@ -80,20 +82,21 @@ const addPokemonCardListeners = () => {
         image.classList.toggle("card-imageRevealed");
         title.classList.toggle("card-titleRevealed");
         sub.classList.toggle("card-subRevealed");
-        star.classList.toggle("star-toggle");
+        star.classList.add("star-toggle");
         pokemon.classList.add("active");
+        
 
         pMap.img = "card-imageRevealed"
         pMap.title = "card-titleRevealed"
         pMap.sub = "card-subRevealed"
-        pMap.fav = "star-toggle"
-        pMap.star = "fill"
         pMap.active = "active"
-       
+        pMap.star = "hollow"
+        pMap.fav = "star-toggle"
+        
       }
-    });
+      displayScroller(mapEmAll);
 
-    
+    });
 
     star.addEventListener("click", () => {
       if (star.innerHTML === "☆") {
@@ -102,18 +105,56 @@ const addPokemonCardListeners = () => {
       } else {
         star.innerHTML = "☆";
         pMap.star = "hollow"
-
       }
     });
   });
-
   };
+
+
+function displayScroller(input) {
+  scroll.removeChild(scroller);
+  scroller =  document.createElement("div");
+  scroller.classList.add('scroller-container');
+
+  for(let i of input){
+    const pokemonC = document.createElement("div");
+    pokemonC.classList.add('pokedexContainer');
+
+    const pokeBall = document.createElement("div");
+    if(i[1].star === "hollow"){
+      pokeBall.classList.add('pokeball');
+
+    }
+    else if(i[1].star === "fill") {
+      pokeBall.classList.add('pokeball');
+      pokeBall.classList.add('pokeemall');
+
+    }
+
+    const pokemon = document.createElement("div");
+    pokemon.classList.add('pokemonName');
+    if(i[1].active === ""){
+      pokemon.innerHTML = "- - - - - - - -"
+    }
+    else {
+      pokemon.innerHTML = i[0];
+    }
+
+    
+    pokemonC.appendChild(pokeBall);
+    pokemonC.appendChild(pokemon);
+    scroller.appendChild(pokemonC);
+    scroll.appendChild(scroller);
+  }
+  
+}
 
 
 
 const displayPokemon = (pokemon) => {
     pokedex.innerHTML = createListElement(pokemon);
     addPokemonCardListeners();
+    displayScroller(mapEmAll);
   
 }
 
@@ -146,6 +187,7 @@ const searchPokemonType = (event) => {
     const filterType = pokemonData.filter((pokemon) =>
       pokemon.type.includes(searchType)
     );
+    console.log(filterType);
     displayPokemon(filterType);
   }
 };

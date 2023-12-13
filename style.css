@@ -3,6 +3,12 @@
   box-sizing: content-box;
 }
 
+.body-container {
+  display: flex;
+  max-width: 1500px;
+  margin: auto;
+}
+
 body {
   background-color: red;
   color: white;
@@ -51,7 +57,7 @@ body {
 .green-circle { background-color: green}
 
 .container {
-  max-width: 1200px;
+  width: 100%;
   margin: auto;
   position: relative;
 }
@@ -219,6 +225,17 @@ h1 {
   opacity: 0.8;
 }
 
+.scroller {
+  margin-top: 210px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 10px 10px 20px rgba(0,0,0,0.7);
+  overflow-y: scroll;
+  width: 400px;
+  height: 1000px;
+}
+
+
 
 
 .pokedexContainer {
@@ -226,6 +243,8 @@ h1 {
   align-items: center;
   justify-content: start;
   padding: 0px 20px;
+  box-shadow: 10px, 5px, 5px, blue;
+
 
 }
 
@@ -234,6 +253,8 @@ h1 {
   text-align: left;
   font-size: 25px;
   padding: 10px 20px;
+  margin-top: 10px;
+
 }
 
 .pokeball {
@@ -241,6 +262,8 @@ h1 {
   width: 40px;
   border-radius: 50%;
   background-color: black;
+  margin-top: 10px;
+  
 }
 
 .pokeemall {
