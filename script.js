@@ -11,6 +11,7 @@ const scroll = document.querySelector(".scroller");
 let pokemonData = [];
 
 const mapEmAll = new Map();
+let pokemonDataFav = [];
 
 const getPokeArr = (num) => {
   const promises = [];
@@ -20,6 +21,30 @@ const getPokeArr = (num) => {
   }
   return promises;
 };
+
+function containerSwap(name) {
+  pokemonData = pokemonData.filter((pokemon) =>  {
+    if(pokemon.name !== name){
+      return pokemon.name !== name;
+    }
+    else {
+      pokemonDataFav.push(pokemon);
+    }
+  })
+  displayPokemon(pokemonData)
+}
+
+function containerFavSwap(name) {
+  pokemonDataFav = pokemonDataFav.filter((pokemon) =>  {
+    if(pokemon.name !== name){
+      return pokemon.name !== name;
+    }
+    else {
+      pokemonData.push(pokemon);
+    }
+  })
+  displayPokemon(doSorting(pokemonData, "id", 'asc'));
+}
 
 const pokeArray = getPokeArr(30);
 
@@ -72,6 +97,8 @@ const addStarListeners = (pMap, data) => {
     if (data.innerHTML === "☆") {
       data.innerHTML = "⭐";
       pMap.star =  "fill";
+      containerSwap(pMap.name);
+
     } else {
       data.innerHTML = "☆";
       pMap.star = "hollow";
@@ -131,6 +158,16 @@ function displayScroller(input) {
       pokeBall.classList.add("pokeemall");
     }
 
+    pokeBall.addEventListener("click", () => {
+      if(pokeBall.classList.contains("pokeemall")){
+        pokeBall.classList.remove("pokeemall");
+        i[1].star = "hollow"
+        containerFavSwap(i[1].name);
+
+        //TODO: need to add the pokemon matched with the ball back to the list, which I can grab from i[0]
+      }
+    })
+
     const pokemon = document.createElement("div");
     pokemon.classList.add("pokemonName");
     if (i[1].active === "") {
@@ -158,7 +195,6 @@ const searchPokemon = (event) => {
   if (searchTerm === "") {
     displayPokemon(doSorting(pokemonData, "id", 'asc'));
   } else {
-    // pokemonData.sort(comparePokemonId);
     doSorting(pokemonData, "id", 'asc');
     const filteredPokemon = pokemonData.filter((pokemon) =>
       pokemon.name.includes(searchTerm)
@@ -173,7 +209,6 @@ const searchPokemonType = (event) => {
   if (searchType === "") {
     displayPokemon(doSorting(pokemonData, "id", 'asc'));
   } else {
-    // pokemonData.sort(comparePokemonId);
     doSorting(pokemonData, "id", 'asc');
 
     const filterType = pokemonData.filter((pokemon) =>
