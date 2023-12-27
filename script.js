@@ -7,9 +7,11 @@ const sortAlpha = document.querySelector(".sort-alpha");
 const sortZeta = document.querySelector(".sort-zeta");
 let scroller = document.querySelector(".scroll-container");
 const scroll = document.querySelector(".scroller");
+const typesParent = document.querySelector(".types");
+let typeContainer = document.querySelector(".types-container");
 
 let pokemonData = [];
-
+let typeData = new Map();
 const mapEmAll = new Map();
 let pokemonDataFav = [];
 
@@ -52,6 +54,7 @@ const fetchPokemon = (pokeArray) => {
   Promise.all(pokeArray).then((results) => {
     buildUI(results);
   });
+  
 };
 
 const buildUI = (data) => {
@@ -67,8 +70,10 @@ const buildUI = (data) => {
     sub: "",
     active: "",
   }));
+  types(pokemonData);
   createPokemonDataMap(pokemonData);
   displayPokemon(pokemonData);
+  
 };
 
 function createPokemonDataMap(input) {
@@ -163,8 +168,6 @@ function displayScroller(input) {
         pokeBall.classList.remove("pokeemall");
         i[1].star = "hollow"
         containerFavSwap(i[1].name);
-
-        //TODO: need to add the pokemon matched with the ball back to the list, which I can grab from i[0]
       }
     })
 
@@ -183,10 +186,41 @@ function displayScroller(input) {
   }
 }
 
+
+
+function displayTypes() {
+  typesParent.removeChild(typeContainer);
+  typeContainer = document.createElement("div");
+  typeContainer.classList.add("types-container");
+  typesParent.appendChild(typeContainer);
+
+  for(let [key,value] of typeData){
+    const type = document.createElement("div");
+    type.innerHTML = `${key} : ${value}`
+    type.classList.add("type");
+    typeContainer.appendChild(type);
+  }
+}
+
+function types(pokemonData) {
+  for(let pokemon of pokemonData) {
+    for(let type of pokemon.type.split("·")){
+      type = type.trim();
+      if(typeData.get(type)){
+        typeData.set(type, typeData.get(type)+1);
+      }
+      else {
+        typeData.set(type, 1);
+      }
+    }
+  }
+}
+
 const displayPokemon = (pokemon) => {
   pokedex.innerHTML = createListElement(pokemon);
   addPokemonCardListeners();
   displayScroller(mapEmAll);
+  displayTypes();
 };
 
 const searchPokemon = (event) => {
@@ -233,32 +267,6 @@ const doSorting = (data, prop, dir) => {
   })
 }
 
-// function comparePokemon(a, b) {
-//   if (a.name < b.name) {
-//     return -1;
-//   } else if (a.name > b.name) {
-//     return 1;
-//   }
-//   return 0;
-// }
-// function comparePokemonButTheOtherWay(a, b) {
-//   if (a.name > b.name) {
-//     return -1;
-//   } else if (a.name < b.name) {
-//     return 1;
-//   }
-//   return 0;
-// }
-
-// function comparePokemonId(a, b) {
-//   if (a.id < b.id) {
-//     return -1;
-//   } else if (a.id > b.id) {
-//     return 1;
-//   }
-//   return 0;
-// }
-
 const sortAlphabetical = (event) => {
   event.preventDefault();
   displayPokemon(doSorting(pokemonData, "name", "asc"));
@@ -286,3 +294,4 @@ sortAlpha.addEventListener("click", sortAlphabetical);
 sortZeta.addEventListener("click", sortZetanumeril);
 
 fetchPokemon(pokeArray);
+
